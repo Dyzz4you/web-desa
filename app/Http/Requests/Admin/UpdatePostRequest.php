@@ -18,6 +18,7 @@ class UpdatePostRequest extends FormRequest
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'type' => ['required','in:news,announcement'],
             'status' => ['required', 'in:draft,published'],
         ];
     }

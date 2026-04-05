@@ -17,6 +17,7 @@ class Post extends Model
         'excerpt',
         'content',
         'thumbnail',
+        'type',
         'status',
         'published_at',
     ];
@@ -33,8 +34,24 @@ class Post extends Model
             }
         });
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeNews($query)
+    {
+        return $query->where('type', 'news');
+    }
+
+    public function scopeAnnouncement($query)
+    {
+        return $query->where('type', 'announcement');
     }
 }

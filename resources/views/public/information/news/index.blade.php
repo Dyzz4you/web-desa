@@ -3,26 +3,17 @@
 @section('content')
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <div class="mb-10">
-                <h1 class="text-3xl font-bold mb-3">Berita Desa</h1>
-                <p class="text-gray-600">Kumpulan berita dan informasi terbaru dari desa.</p>
-            </div>
+            <h1 class="text-3xl font-bold mb-6">Berita Desa</h1>
 
-            <div class="bg-gray-50 rounded-2xl shadow-sm p-4 mb-8">
-                <form method="GET" action="{{ route('posts.index') }}" class="grid md:grid-cols-2 gap-4">
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ $search }}"
-                        placeholder="Cari berita..."
-                        class="rounded-lg border-gray-300"
-                    >
-
-                    <button type="submit" class="bg-green-700 text-white rounded-lg px-4 py-2">
-                        Cari
-                    </button>
-                </form>
-            </div>
+            <form method="GET" action="{{ route('information.news.index') }}" class="mb-8">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ $search }}"
+                    placeholder="Cari berita..."
+                    class="rounded-lg border-gray-300 w-full md:w-96"
+                >
+            </form>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($posts as $post)
@@ -37,11 +28,15 @@
                             <p class="text-sm text-gray-500 mb-2">
                                 {{ $post->created_at->format('d M Y') }}
                             </p>
+
                             <h3 class="text-xl font-bold mb-3">{{ $post->title }}</h3>
+
                             <p class="text-gray-600 mb-4">
                                 {{ \Illuminate\Support\Str::limit($post->excerpt ?: strip_tags($post->content), 120) }}
                             </p>
-                            <a href="{{ route('posts.show', $post->slug) }}" class="text-green-700 font-semibold hover:underline">
+
+                            <a href="{{ route('information.news.show', $post->slug) }}"
+                               class="text-green-700 font-semibold hover:underline">
                                 Baca Selengkapnya
                             </a>
                         </div>
