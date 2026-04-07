@@ -1,75 +1,85 @@
 @extends('layouts.public')
 
 @section('content')
-    <section class="bg-gradient-to-r from-green-700 to-emerald-600 text-white py-20">
-        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                    {{ $profile->hero_title ?? $profile->village_name ?? 'Selamat Datang di Website Desa' }}
-                </h1>
+<section 
+    class="relative bg-cover bg-center py-20 text-white shadow-inner overflow-hidden"
+    style="background-image: url('{{ $profile->hero_image ? asset('storage/' . $profile->hero_image) : asset('images/default-hero.jpg') }}');"
+>
+    {{-- Overlay Gelap untuk keterbacaan teks --}}
+    <div class="absolute inset-0 bg-black/50 z-0"></div> 
+    
+    <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center relative z-10">
+        {{-- Sisi Kiri: Teks Hero --}}
+        <div class="space-y-6">
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                {{ $profile->hero_title ?? $profile->village_name ?? 'Selamat Datang di Website Desa' }}
+            </h1>
 
-                <p class="text-lg text-green-50 mb-6">
-                    {{ $profile->hero_description ?? 'Portal resmi desa untuk informasi publik, berita, UMKM, dan layanan masyarakat.' }}
-                </p>
+            <p class="text-lg text-gray-100">
+                {{ $profile->hero_description ?? 'Portal resmi desa untuk informasi publik, berita, UMKM, dan layanan masyarakat.' }}
+            </p>
 
-                <div class="flex flex-wrap gap-3">
-                    <a href="{{ route('profile.about') }}" class="bg-white text-green-700 px-5 py-3 rounded-lg font-semibold hover:bg-green-50">
-                        Tentang Desa
-                    </a>
-                    <a href="{{ route('contact.index') }}" class="border border-white px-5 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700">
-                        Hubungi Kami
-                    </a>
-                </div>
-            </div>
-
-            <div>
-    @if(isset($sliders) && $sliders->count())
-        <div
-            x-data="{
-                active: 0,
-                slides: {{ $sliders->count() }},
-                start() {
-                    setInterval(() => {
-                        this.active = (this.active + 1) % this.slides
-                    }, 3000)
-                }
-            }"
-            x-init="start()"
-            class="relative bg-white/10 rounded-2xl overflow-hidden shadow-xl"
-        >
-            <div
-                class="flex transition-transform duration-700 ease-in-out"
-                :style="`transform: translateX(-${active * 100}%); width: {{ $sliders->count() * 100 }}%;`"
-            >
-                @foreach($sliders as $slider)
-                    <div class="w-full flex-shrink-0">
-                        <img
-                            src="{{ asset('storage/' . $slider->image) }}"
-                            alt="{{ $slider->title }}"
-                            class="w-full h-[320px] md:h-[420px] object-cover object-center"
-                        >
-
-                        <div class="p-4 bg-slate-900/60 text-white">
-                            <h3 class="text-xl font-bold">{{ $slider->title }}</h3>
-                            <p class="text-sm mt-1">{{ $slider->description }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            {{-- indikator --}}
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                @foreach($sliders as $index => $slider)
-                    <button
-                        @click="active = {{ $index }}"
-                        :class="active === {{ $index }} ? 'bg-white' : 'bg-white/50'"
-                        class="w-3 h-3 rounded-full"
-                    ></button>
-                @endforeach
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('profile.about') }}" class="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition">
+                    Tentang Desa
+                </a>
+                <a href="{{ route('contact.index') }}" class="border border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition">
+                    Hubungi Kami
+                </a>
             </div>
         </div>
-    @endif
-</div>
+
+        {{-- Sisi Kanan: Slider Alpine.js --}}
+        <div class="relative">
+            @if(isset($sliders) && $sliders->count())
+                <div
+                    x-data="{
+                        active: 0,
+                        slides: {{ $sliders->count() }},
+                        start() {
+                            setInterval(() => {
+                                this.active = (this.active + 1) % this.slides
+                            }, 4000)
+                        }
+                    }"
+                    x-init="start()"
+                    class="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-white/20"
+                >
+                    <div
+                        class="flex transition-transform duration-700 ease-in-out"
+                        :style="`transform: translateX(-${active * 100}%); width: {{ $sliders->count() * 100 }}%;`"
+                    >
+                        @foreach($sliders as $slider)
+                            <div class="w-full flex-shrink-0 relative">
+                                <img
+                                    src="{{ asset('storage/' . $slider->image) }}"
+                                    alt="{{ $slider->title }}"
+                                    class="w-full h-[320px] md:h-[420px] object-cover object-center"
+                                >
+                                {{-- Caption Slider --}}
+                                <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                                    <h3 class="text-xl font-bold">{{ $slider->title }}</h3>
+                                    <p class="text-sm mt-1 text-gray-200 line-clamp-2">{{ $slider->description }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Indikator Slider --}}
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        @foreach($sliders as $index => $slider)
+                            <button
+                                @click="active = {{ $index }}"
+                                :class="active === {{ $index }} ? 'bg-white w-8' : 'bg-white/50 w-3'"
+                                class="h-3 rounded-full transition-all duration-300"
+                            ></button>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</section>
         </div>
     </section>
     <section id="tentang" class="py-16 bg-white">
@@ -276,19 +286,18 @@
                     @endforelse
                 </div>
 
-                @if($profile?->google_maps_embed)
                     <div class="mt-6">
                         <iframe
-                            src="{{ $profile->google_maps_embed }}"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1879.6213835932472!2d110.84445962568937!3d-7.582666596893978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a16492496322d%3A0xccc7d52a92f7e1e!2sKantor%20Kepala%20Desa%20Gadingan%20Kec.%20Moholaban!5e1!3m2!1sid!2sid!4v1775546925635!5m2!1sid!2sid"
                             class="w-full h-72 rounded-xl shadow-sm"
                             style="border:0;"
-                            allowfullscreen=""
-                            loading="lazy">
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
-                @endif
-            </div>
 
+            </div>
             <div>
                 <div class="bg-gray-50 rounded-2xl shadow-sm p-6">
                     <h2 class="text-2xl font-bold mb-4">Kirim Pesan</h2>

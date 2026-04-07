@@ -14,35 +14,61 @@
                 {{ $profile->village_name ?? 'Web Desa' }}
             </a>
 
-           <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="{{ route('home') }}" class="hover:text-green-700">Beranda</a>
+           <nav class="hidden md:flex items-center gap-6 text-sm font-medium" x-data="{ open: null }">
 
-                <div class="relative group">
-                    <button class="hover:text-green-700">Profil</button>
-                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-lg mt-2 w-56 p-2">
-                        <a href="{{ route('profile.about') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Tentang Desa</a>
-                        <a href="{{ route('profile.organization') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Struktur Organisasi</a>
-                        <a href="{{ route('profile.map') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Peta Desa</a>
-                    </div>
+            <a href="{{ route('home') }}" class="hover:text-green-700">Beranda</a>
+
+            <!-- PROFIL -->
+            <div class="relative">
+                <button 
+                    @click="open === 'profil' ? open = null : open = 'profil'"
+                    class="hover:text-green-700 focus:outline-none"
+                >
+                    Profil
+                </button>
+
+                <div 
+                    x-show="open === 'profil'" 
+                    @click.outside="open = null"
+                    x-transition
+                    class="absolute bg-white shadow-lg rounded-lg mt-2 w-56 p-2 z-50"
+                >
+                    <a href="{{ route('profile.about') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Tentang Desa</a>
+                    <a href="{{ route('profile.organization') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Struktur Organisasi</a>
+                    <a href="{{ route('profile.map') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Peta Desa</a>
                 </div>
+            </div>
 
-                <div class="relative group">
-                    <button class="hover:text-green-700">Informasi</button>
-                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-lg mt-2 w-56 p-2">
-                        <a href="{{ route('information.news.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Berita</a>
-                        <a href="{{ route('information.announcements.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Pengumuman</a>
-                    </div>
+            <!-- INFORMASI -->
+            <div class="relative">
+                <button 
+                    @click="open === 'info' ? open = null : open = 'info'"
+                    class="hover:text-green-700 focus:outline-none"
+                >
+                    Informasi
+                </button>
+
+                <div 
+                    x-show="open === 'info'" 
+                    @click.outside="open = null"
+                    x-transition
+                    class="absolute bg-white shadow-lg rounded-lg mt-2 w-56 p-2 z-50"
+                >
+                    <a href="{{ route('information.news.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Berita</a>
+                    <a href="{{ route('information.announcements.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Pengumuman</a>
                 </div>
+            </div>
 
-                <a href="{{ route('budget.index') }}" class="hover:text-green-700">APBDes</a>
-                <a href="{{ route('public.umkm.index') }}" class="hover:text-green-700">UMKM</a>
-                <a href="{{ route('population.index') }}" class="hover:text-green-700">Data Penduduk</a>
-                <a href="{{ route('home') }}#galeri" class="hover:text-green-700">Galeri</a>
-                <a href="{{ route('contact.index') }}" class="hover:text-green-700">Kontak</a>
-                <a href="{{ route('login') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800">
-                    Login
-                </a>
-            </nav>
+            <a href="{{ route('budget.index') }}" class="hover:text-green-700">APBDes</a>
+            <a href="{{ route('public.umkm.index') }}" class="hover:text-green-700">UMKM</a>
+            <a href="{{ route('population.index') }}" class="hover:text-green-700">Data Penduduk</a>
+            <a href="{{ route('home') }}#galeri" class="hover:text-green-700">Galeri</a>
+            <a href="{{ route('contact.index') }}" class="hover:text-green-700">Kontak</a>
+
+            <a href="{{ route('login') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800">
+                Login
+            </a>
+        </nav>
         </div>
     </header>
 
