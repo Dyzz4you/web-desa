@@ -78,43 +78,75 @@
         @yield('content')
     </main>
 
-    <footer class="bg-slate-900 text-white mt-16">
-        <div class="container mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
-            <div>
-                <h3 class="text-lg font-bold mb-3">{{ $profile->village_name ?? 'Web Desa' }}</h3>
-                <p class="text-sm text-slate-300">
-                    Portal informasi resmi desa yang menampilkan profil desa, berita, UMKM, dan layanan informasi masyarakat.
-                </p>
+<footer class="bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 text-white mt-16">
+    <div class="container mx-auto px-4 py-10 grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+        
+        <!-- Profil Desa -->
+        <div class="lg:col-span-1">
+            <h3 class="text-lg font-bold leading-tight">
+                {{ $profile->village_name ?? 'Web Desa' }}
+            </h3>
+            <p class="text-sm text-blue-200 mb-3">
+                Kabupaten Sukoharjo
+            </p>
+
+            <div class="inline-block bg-blue-600/70 px-3 py-2 rounded text-sm leading-relaxed text-white">
+                {{ $profile->address ?? 'Alamat belum tersedia' }}
             </div>
 
-            <div>
-                <h3 class="text-lg font-bold mb-3">Navigasi</h3>
-                <ul class="space-y-2 text-sm text-slate-300">
-                    <li><a href="{{ route('home') }}" class="hover:text-white">Beranda</a></li>
-                    <li><a href="{{ route('profile.about') }}" class="hover:text-white">Tentang Desa</a></li>
-                    <li><a href="{{ route('profile.organization') }}" class="hover:text-white">Struktur Organisasi</a></li>
-                    <li><a href="{{ route('information.news.index') }}" class="hover:text-white">Berita</a></li>
-                    <li><a href="{{ route('information.announcements.index') }}" class="hover:text-white">Pengumuman</a></li>
-                    <li><a href="{{ route('budget.index') }}" class="hover:text-white">APBDes</a></li>
-                    <li><a href="{{ route('public.umkm.index') }}" class="hover:text-white">UMKM</a></li>
-                    <li><a href="{{ route('population.index') }}" class="hover:text-white">Data Penduduk</a></li>
-                    <li><a href="{{ route('contact.index') }}" class="hover:text-white">Kontak</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="text-lg font-bold mb-3">Kontak</h3>
-                <ul class="space-y-2 text-sm text-slate-300">
-                    <li>{{ $profile->address ?? 'Alamat belum tersedia' }}</li>
-                    <li>{{ $profile->email ?? 'Email belum tersedia' }}</li>
-                    <li>{{ $profile->phone ?? 'Telepon belum tersedia' }}</li>
-                </ul>
+            <div class="mt-4 space-y-1 text-sm text-slate-300">
+                <p>{{ $profile->email ?? 'Email belum tersedia' }}</p>
+                <p>{{ $profile->phone ?? 'Telepon belum tersedia' }}</p>
             </div>
         </div>
 
-        <div class="border-t border-slate-700 text-center text-sm text-slate-400 py-4">
-            &copy; {{ date('Y') }} {{ $profile->village_name ?? 'Web Desa' }}. All rights reserved.
+        <!-- Navigasi -->
+        <div>
+            <h3 class="text-lg font-bold mb-3 uppercase tracking-wide">Navigasi</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+                <li><a href="{{ route('home') }}" class="hover:text-blue-300 transition">Beranda</a></li>
+                <li><a href="{{ route('profile.about') }}" class="hover:text-blue-300 transition">Tentang Desa</a></li>
+                <li><a href="{{ route('profile.organization') }}" class="hover:text-blue-300 transition">Struktur Organisasi</a></li>
+                <li><a href="{{ route('contact.index') }}" class="hover:text-blue-300 transition">Kontak</a></li>
+            </ul>
         </div>
-    </footer>
+
+        <!-- Informasi -->
+        <div>
+            <h3 class="text-lg font-bold mb-3 uppercase tracking-wide">Informasi</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+                <li><a href="{{ route('information.news.index') }}" class="hover:text-blue-300 transition">Berita</a></li>
+                <li><a href="{{ route('information.announcements.index') }}" class="hover:text-blue-300 transition">Pengumuman</a></li>
+                <li><a href="{{ route('budget.index') }}" class="hover:text-blue-300 transition">APBDes</a></li>
+                <li><a href="{{ route('population.index') }}" class="hover:text-blue-300 transition">Data Penduduk</a></li>
+            </ul>
+        </div>
+
+        <!-- Layanan -->
+        <div>
+            <h3 class="text-lg font-bold mb-3 uppercase tracking-wide">Layanan</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+                <li><a href="{{ route('public.umkm.index') }}" class="hover:text-blue-300 transition">UMKM</a></li>
+                <li><a href="{{ route('contact.index') }}" class="hover:text-blue-300 transition">Layanan Informasi</a></li>
+                <li><a href="{{ route('budget.index') }}" class="hover:text-blue-300 transition">Transparansi Anggaran</a></li>
+                <li><a href="{{ route('profile.about') }}" class="hover:text-blue-300 transition">Profil Desa</a></li>
+            </ul>
+        </div>
+
+        <!-- Jadwal / Info Tambahan -->
+        <div>
+            <h3 class="text-lg font-bold mb-3 uppercase tracking-wide">Jadwal Pelayanan</h3>
+            <ul class="space-y-2 text-sm text-slate-300 leading-relaxed">
+                <li>Senin - Kamis: 07.30 - 15.00 WIB</li>
+                <li>Jumat: 07.30 - 11.00 WIB</li>
+                <li>Sabtu: Libur</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="border-t border-white/10 text-center text-sm text-slate-400 py-4">
+        &copy; {{ date('Y') }} {{ $profile->village_name ?? 'Web Desa' }}. All rights reserved.
+    </div>
+</footer>
 </body>
 </html>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\NewsAnnouncement;
 use App\Http\Controllers\Admin\BudgetReportController as AdminBudgetReportController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\PopulationStatisticController as AdminPopulationStatisticController;
 use App\Http\Controllers\Admin\VillageProfileController;
 use App\Http\Controllers\Admin\VillageGalleryController;
 use App\Http\Controllers\Public\AnnouncementController;
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::resource('organization-structures', OrganizationStructureController::class);
         Route::resource('contacts', AdminContactController::class);
         Route::resource('budget-reports', AdminBudgetReportController::class);
+        Route::resource('population-statistics', AdminPopulationStatisticController::class);
         Route::resource('village-galleries', VillageGalleryController::class);
 
         Route::get('village-profile', [VillageProfileController::class, 'edit'])->name('village-profile.edit');
